@@ -196,6 +196,10 @@ app.get('/room-exists/:roomId', (req, res) => {
   res.json({ exists: activeRooms.has(roomId) });
 });
 
+// ✅ Root route to confirm backend is live
+app.get('/', (req, res) => {
+  res.send('🚀 DevMeet Backend is Live!');
+});
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server running on port ${process.env.PORT || 5000}`)

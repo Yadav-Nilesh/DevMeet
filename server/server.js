@@ -20,7 +20,7 @@ app.use("/api", authRoutes);
 // ✅ Initialize Socket.io with correct CORS config
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'https://devmeet-five.vercel.app',
     methods: ['GET', 'POST'],
   },
 });

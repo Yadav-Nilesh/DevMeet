@@ -22,7 +22,7 @@ export default function SignupCard({ onClose }) {
     setError('');
 
     try {
-      await axios.post('http://localhost:5000/api/signup', form);
+      await axios.post('https://devmeet-five.vercel.app/api/signup', form);
       alert('Signup successful! Please login.');
       onClose();            // close modal
       navigate('/');   // redirect after signup

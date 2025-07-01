@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap');
+
+:root {
+  --primary-color: #e4e7ed;
+  --button-color: #3b5fe2;
+}
+
+.sendButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 10px;
+  border-radius: 18px;
+  background-color: var(--button-color);
+  border: none;
+  cursor: pointer;
+  transition: 0.1s linear;
+  overflow: hidden;
+  font-family: 'Mukta', sans-serif;
+}
+.sendButton:active {
+  transform: translateY(5px);
+}
+
+.sendButton .text {
+  font-size: 1rem;
+  color: var(--primary-color);
+  z-index: 100;
+}
+
+.sendButton .icon {
+  margin-left: 10px;
+  width: 15px;
+  height: 15px;
+}
+.sendButton .icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--primary-color);
+  fill: var(--button-color);
+  stroke-width: 38;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+}
+
+.animate-out {
+  animation: send 1.5s ease-out forwards;
+}
+.animate-back {
+  animation: back 1.5s ease-out forwards;
+}
+
+@keyframes send {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  10% {
+    transform: translateX(0) rotate(45deg);
+  }
+  35%, 40% {
+    transform: translateX(-10px) rotate(45deg);
+  }
+  100% {
+    transform: translateX(300%) rotate(45deg);
+  }
+}
+
+@keyframes back {
+  0% {
+    transform: translateX(-500%) rotate(45deg);
+  }
+  50% {
+    transform: translateX(10px) rotate(45deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+}

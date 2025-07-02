@@ -81,7 +81,7 @@ export default function SignupCard({ onClose }) {
           />
           <SpotlightButton
             type="submit"
-            onClick={handleSignup}
+            // onClick={handleSignup}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-3xl transition duration-200"
           >
             Sign Up

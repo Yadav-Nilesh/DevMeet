@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoutes");
 const { exec } = require("child_process");
 const fs = require("fs"); 
 
+const Room=require("./models/Room")
 dotenv.config();
 const app = express();
 const server = http.createServer(app); // ✅ MUST use http.createServer
@@ -21,6 +22,25 @@ app.use(cors({
 
 app.use(express.json());
 app.use("/api", authRoutes);
+
+
+// ✅ Room creation route
+app.post("/create-room", async (req, res) => {
+  const { roomId } = req.body;
+  if (!roomId) return res.status(400).json({ error: "Missing roomId" });
+
+  try {
+    const existing = await Room.findOne({ roomId });
+    if (!existing) {
+      await Room.create({ roomId });
+    }
+    res.status(201).json({ message: "Room saved or already exists" });
+  } catch (err) {
+    console.error("Room save error:", err);
+    res.status(500).json({ error: "Failed to save room" });
+  }
+});
+
 
 // ✅ Initialize Socket.io with correct CORS config
 const io = new Server(server, {
@@ -196,10 +216,18 @@ mongoose
   .catch((err) => console.error('MongoDB Error:', err));
 
   // ✅ API route to check if a room exists
-app.get('/room-exists/:roomId', (req, res) => {
-  const roomId = req.params.roomId;
-  res.json({ exists: activeRooms.has(roomId) });
-});
+  app.get("/room-exists/:roomId", async (req, res) => {
+    const { roomId } = req.params;
+  
+    try {
+      const room = await Room.findOne({ roomId });
+      res.json({ exists: !!room });
+    } catch (err) {
+      console.error("Room existence check failed:", err);
+      res.status(500).json({ error: "Failed to check room" });
+    }
+  });
+  
 
 // ✅ Root route to confirm backend is live
 app.get('/', (req, res) => {

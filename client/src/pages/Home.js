@@ -13,16 +13,41 @@ export default function Home() {
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
 
-  const handleCreateRoom = () => {
+  
+  const handleCreateRoom = async () => {
     const username = localStorage.getItem("username");
     if (!username) {
       alert("❗ Please login or sign up first.");
       return;
     }
-
+  
     const roomId = uuidv4();
-    navigate(`/room/${roomId}`);
+  
+    try {
+      // 🧠 Store the new room in MongoDB
+      const res = await fetch("https://devmeet-xp51.onrender.com/create-room", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ roomId }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        console.error("Room creation failed:", data);
+        alert("❌ Failed to create room on server.");
+        return;
+      }
+  
+      navigate(`/room/${roomId}`);
+    } catch (error) {
+      console.error("Room creation error:", error);
+      alert("❌ Could not connect to server.");
+    }
   };
+  
 
   const location = useLocation();
 

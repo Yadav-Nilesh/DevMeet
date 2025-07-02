@@ -126,9 +126,10 @@ export default function Room() {
   };
 
   const handleLeaveRoom = () => {
-  socket.disconnect(); // disconnect the socket connection
-  navigate("/", { state: { openCreateRoom: true } }); // go to home and trigger create room modal
-};
+    socket.disconnect();
+    navigate("/"); // takes you to home, shows Create/Join/Logout based on login state
+  };
+  
 
   return (
     <div className="font-sans text-white h-screen flex flex-col bg-[#0f0f0f]">

@@ -268,7 +268,7 @@ export default function Room() {
               <SpotlightButton
                 onClick={async () => {
                   try {
-                    const res = await axios.post("https://devmeet-five.vercel.app/run", {
+                    const res = await axios.post("https://devmeet-xp51.onrender.com/run", {
                       code: sharedCode,
                       language,
                     });

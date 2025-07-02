@@ -22,7 +22,7 @@ export default function SignupCard({ onClose }) {
     setError('');
 
     try {
-      await axios.post('https://devmeet-five.vercel.app/api/signup', form);
+      await axios.post('https://devmeet-xp51.onrender.com/api/signup', form);
       alert('Signup successful! Please login.');
       onClose();            // close modal
       navigate('/');   // redirect after signup
@@ -80,7 +80,8 @@ export default function SignupCard({ onClose }) {
             className="w-full px-4 py-2 rounded-2xl bg-white bg-opacity-20 text-white placeholder-white/80 border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <SpotlightButton
-            type="submit"
+            type="button"
+            onClick={handleSignup}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-3xl transition duration-200"
           >
             Sign Up

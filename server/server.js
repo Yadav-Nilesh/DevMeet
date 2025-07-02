@@ -13,14 +13,19 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app); // ✅ MUST use http.createServer
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://devmeet-five.vercel.app'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use("/api", authRoutes);
 
 // ✅ Initialize Socket.io with correct CORS config
 const io = new Server(server, {
   cors: {
-    origin: 'https://devmeet-five.vercel.app',
+    origin: ['http://localhost:3000', 'https://devmeet-five.vercel.app'],
     methods: ['GET', 'POST'],
   },
 });

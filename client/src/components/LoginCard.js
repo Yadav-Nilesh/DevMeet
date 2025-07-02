@@ -1,35 +1,38 @@
-import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import SpotlightButton from './SpotlightButton';
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import SpotlightButton from "./SpotlightButton";
 
 export default function LoginCard({ onClose }) {
-  const [form, setForm] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
-      const res = await axios.post('http://localhost:5000/api/login', form);
+      const res = await axios.post(
+        "https://devmeet-xp51.onrender.com/api/login",
+        form
+      );
       const { token, username } = res.data;
 
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
 
       onClose();
-      navigate('/');
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
-    }
+    } 
   };
 
   return (
@@ -49,9 +52,13 @@ export default function LoginCard({ onClose }) {
           &times;
         </button>
 
-        <h2 className="text-3xl font-bold text-center mb-6 text-white">Log In</h2>
+        <h2 className="text-3xl font-bold text-center mb-6 text-white">
+          Log In
+        </h2>
 
-        {error && <p className="text-red-400 text-sm text-center mb-4">{error}</p>}
+        {error && (
+          <p className="text-red-400 text-sm text-center mb-4">{error}</p>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-5">
           <input
@@ -74,9 +81,10 @@ export default function LoginCard({ onClose }) {
           />
           <SpotlightButton
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700  font-semibold py-2 rounded-4xl text-white"
+            className="w-full bg-blue-600 hover:bg-blue-700 font-semibold py-2 rounded-4xl text-white flex justify-center items-center"
           >
-            Log In
+              Log In
+            
           </SpotlightButton>
         </form>
       </motion.div>

@@ -50,7 +50,7 @@ export default function Home() {
 
     try {
       const res = await fetch(
-        `https://devmeet-five.vercel.app/room-exists/${roomIdToJoin}`
+        `https://devmeet-xp51.onrender.com/room-exists/${roomIdToJoin}`
       );
       const data = await res.json();
 

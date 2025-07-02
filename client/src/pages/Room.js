@@ -6,8 +6,7 @@ import ChatBox from "../components/ChatBox";
 import Timer from "../components/Timer";
 import axios from "axios";
 import SpotlightButton from "../components/SpotlightButton";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 export default function Room() {
   const { roomId } = useParams();
@@ -22,6 +21,8 @@ export default function Room() {
   const pendingInitialCode = useRef(null);
 
   const [copied, setCopied] = useState(false);
+
+  const [userInput, setUserInput] = useState("");
 
   const navigate = useNavigate();
 
@@ -129,7 +130,6 @@ export default function Room() {
     socket.disconnect();
     navigate("/"); // takes you to home, shows Create/Join/Logout based on login state
   };
-  
 
   return (
     <div className="font-sans text-white h-screen flex flex-col bg-[#0f0f0f]">
@@ -160,36 +160,30 @@ export default function Room() {
         </div>
 
         <SpotlightButton
-  onClick={handleLeaveRoom}
-  gradient="linear-gradient(to right, #16a34a, #4ade80)"
-  className="bg-orange-600 hover:bg-red-700 text-white px-3 py-1 text-sm rounded-md transition"
->
-  Leave Room
-</SpotlightButton>
-
-
+          onClick={handleLeaveRoom}
+          gradient="linear-gradient(to right, #16a34a, #4ade80)"
+          className="bg-orange-600 hover:bg-red-700 text-white px-3 py-1 text-sm rounded-md transition"
+        >
+          Leave Room
+        </SpotlightButton>
 
         <div className="text-sm flex items-center gap-2">
-  {/* 👤 New SVG Icon */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-4 h-4 text-green-400"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5Zm0 2c-3.3 0-10 1.7-10 5v1c0 .6.4 1 1 1h18c.6 0 1-.4 1-1v-1c0-3.3-6.7-5-10-5Z" />
-  </svg>
+          {/* 👤 New SVG Icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-4 h-4 text-green-400"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5Zm0 2c-3.3 0-10 1.7-10 5v1c0 .6.4 1 1 1h18c.6 0 1-.4 1-1v-1c0-3.3-6.7-5-10-5Z" />
+          </svg>
 
-  {/* 🟢 Label + Usernames */}
-  <span className="text-green-400">Online Users:</span>
-  <span className="text-white">
-    {onlineUsers.join(", ") || "Loading..."}
-  </span>
-</div>
-
-
-
-
+          {/* 🟢 Label + Usernames */}
+          <span className="text-green-400">Online Users:</span>
+          <span className="text-white">
+            {onlineUsers.join(", ") || "Loading..."}
+          </span>
+        </div>
       </div>
 
       {/* 🔀 Main Content Area */}
@@ -269,10 +263,14 @@ export default function Room() {
               <SpotlightButton
                 onClick={async () => {
                   try {
-                    const res = await axios.post("https://devmeet-xp51.onrender.com/run", {
-                      code: sharedCode,
-                      language,
-                    });
+                    const res = await axios.post(
+                      "https://devmeet-xp51.onrender.com/run",
+                      {
+                        code: sharedCode,
+                        language,
+                        input: userInput,
+                      }
+                    );
                     setOutput(res.data.output);
                   } catch (err) {
                     setOutput(
@@ -291,6 +289,17 @@ export default function Room() {
             <pre className="whitespace-pre-wrap text-sm">
               {output || "// Output will appear here..."}
             </pre>
+          </div>
+
+          <div className="mt-4 p-3 ">
+            <label className="font-semibold">Input :</label>
+            <textarea
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Enter your input here .."
+              className="w-full mt-2 h-24 p-2 rounded-lg
+     bg-[#1e1e1e]  text-white text-sm resize-none border border-none"
+            />
           </div>
 
           {/* 🧭 Bottom Half: Left = Lang/Timer/Download, Right = Chat */}
